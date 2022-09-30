@@ -100,19 +100,27 @@ docker-build:
 
 .PHONY: dc-up
 dc-up:
-	docker-compose -p ozon_route256 up -d
+	docker-compose -f docker-compose.service.yaml -f docker-compose.service-env.yaml -p ozon_route256 up -d
+
+.PHONY: dc-up-service-env
+dc-up-service-env:
+	docker-compose -f docker-compose.service-env.yaml -p ozon_route256 up -d
 
 .PHONY: dc-stop
 dc-stop:
-	docker-compose -p ozon_route256 stop
+	docker-compose -f docker-compose.service.yaml -f docker-compose.service-env.yaml -p ozon_route256 stop
 
 .PHONY: dc-down
 dc-down:
-	docker-compose -p ozon_route256 down --remove-orphans -v -t0
+	docker-compose -f docker-compose.service.yaml -f docker-compose.service-env.yaml -p ozon_route256 down --remove-orphans -v -t0
+
+.PHONY: dc-down-service-env
+dc-down-service-env:
+	docker-compose -f docker-compose.service-env.yaml -p ozon_route256 down --remove-orphans -v -t0
 
 .PHONY: dc-rebuild-reup
 dc-rebuild-reup: dc-down
-	docker-compose -p ozon_route256 up --build --force-recreate -V -d
+	docker-compose -f docker-compose.service.yaml -f docker-compose.service-env.yaml -p ozon_route256 up --build --force-recreate -V -d
 
 .PHONY: tools-version
 tools-version:
