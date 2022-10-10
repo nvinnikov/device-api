@@ -1,0 +1,26 @@
+# device
+[![](https://mermaid.ink/img/pako:eNplULFSwzAM_RWfZrcXtyRxPLDQjjAUjgHMcb5Y0BzEDo7Ta0ny7zgxhaHyIj299ySrh9JqBAHvTjV78rCRhoS4s357rFr_vMFDVeLruX4hi8X1cONQeYytR7bDrw5bP5AI9L-SmT9GuwhNWjLssLaHS_F5wqVgq6s_c2niIwQo1OhqVemwfD8hEvwea5QgQqqV-5AgzRh4qvP2_mRKEN51SKFr9LR-pcKfaxBv6rMNKIYx1t3Ga8xHodAo82TtPyfUIHo4gmDFMgmRFxlfZ3zFWU7hFOB0ma4Knid5dpUynqxHCt-zAxt_AAtFdiY)](https://mermaid.live/edit#pako:eNplULFSwzAM_RWfZrcXtyRxPLDQjjAUjgHMcb5Y0BzEDo7Ta0ny7zgxhaHyIj299ySrh9JqBAHvTjV78rCRhoS4s357rFr_vMFDVeLruX4hi8X1cONQeYytR7bDrw5bP5AI9L-SmT9GuwhNWjLssLaHS_F5wqVgq6s_c2niIwQo1OhqVemwfD8hEvwea5QgQqqV-5AgzRh4qvP2_mRKEN51SKFr9LR-pcKfaxBv6rMNKIYx1t3Ga8xHodAo82TtPyfUIHo4gmDFMgmRFxlfZ3zFWU7hFOB0ma4Knid5dpUynqxHCt-zAxt_AAtFdiY)
+```mermaid
+graph TD
+    NotExist[Device_NotExist] -->|CreateDeviceV1Request| Device{Device_Exist}
+    Device --> |RemoveDeviceV1Request| NotExist
+    Device --> |Edit| Device
+```
+# device_event
+[![](https://mermaid.ink/img/pako:eNqtUU1Pg0AU_Cubd6oJbaCVz4MHpSeiMa16sBjzhIclFRaXhbQC_70ra6LGgx58e9mZnZlN3nSQ8JQggGeB1ZbdhHHJ1CxbKuXjFZfLfV7LzXf4wKbTM9ZfCEJJIbV5QnfWil4bqmWvrX9Pua3Sf0hZUcHb31O0efT0a2yJhZSREJT2LDyfhCjxCWs60Y6vjP5ldLNM8EI99iyaRJjt8EMebUakw68FT6iufwbrwxgYUJAoME_V7rt3Jga5pYJiCNQ1RbGLIS4HpcNG8vWhTCCQoiEDGr2xHFVlBQQZvtSKpTSXXFzqMsdODaiwvOf8U6MwBB3sIbD8manG9R1v4Xhzz3INOCjantlz33NN1zm1Lc9cDAa8jQnWcASvkLbz)](https://mermaid.live/edit#pako:eNqtUU1Pg0AU_Cubd6oJbaCVz4MHpSeiMa16sBjzhIclFRaXhbQC_70ra6LGgx58e9mZnZlN3nSQ8JQggGeB1ZbdhHHJ1CxbKuXjFZfLfV7LzXf4wKbTM9ZfCEJJIbV5QnfWil4bqmWvrX9Pua3Sf0hZUcHb31O0efT0a2yJhZSREJT2LDyfhCjxCWs60Y6vjP5ldLNM8EI99iyaRJjt8EMebUakw68FT6iufwbrwxgYUJAoME_V7rt3Jga5pYJiCNQ1RbGLIS4HpcNG8vWhTCCQoiEDGr2xHFVlBQQZvtSKpTSXXFzqMsdODaiwvOf8U6MwBB3sIbD8manG9R1v4Xhzz3INOCjantlz33NN1zm1Lc9cDAa8jQnWcASvkLbz)
+```mermaid
+graph TD
+    Event_NotExist[Event_NotExist] --> |CreateDeviceV1Request| Event
+    Event_NotExist[Event_NotExist] --> |UpdateDeviceV1Request| Event
+    Event_NotExist[Event_NotExist] --> |RemoveDeviceV1Request| Event
+    Event[Event] -->|Save Deferred| DB(Database)
+    DB(Database) --> |Event from DB| K(Kafka)
+    K[Kafka] -->|Processed| DB(Database)
+```
+# notification
+[![](https://mermaid.ink/img/pako:eNpVkMFOwzAMhl8l8jmbmo22aQ5ISOOE4EARBwhCUeNt0WhS0lTaaPvuZAXG5lzsz_ZvOz1UTiMI2HjVbMnTSloS7cGF271pw2t0zNpUKhhn3__oG5nNrocSrT5PP7NH_OywDQM5x_2FxNQ_noacEkdFMtyUd5fN8vcRAhRq9LUyOi7bH4mEsMUaJYjoauV3EqQdY53qgisPtgIRfIcUukargCuj4o01iLX6aCNFbYLz9z_XT59AoVH2xbn_mhiD6GEPghXzJFpeZHyZ8QVnOYVDxOk8XRQ8T_LsKmU8WY4UviYFNn4D5zpzSQ)](https://mermaid.live/edit#pako:eNpVkMFOwzAMhl8l8jmbmo22aQ5ISOOE4EARBwhCUeNt0WhS0lTaaPvuZAXG5lzsz_ZvOz1UTiMI2HjVbMnTSloS7cGF271pw2t0zNpUKhhn3__oG5nNrocSrT5PP7NH_OywDQM5x_2FxNQ_noacEkdFMtyUd5fN8vcRAhRq9LUyOi7bH4mEsMUaJYjoauV3EqQdY53qgisPtgIRfIcUukargCuj4o01iLX6aCNFbYLz9z_XT59AoVH2xbn_mhiD6GEPghXzJFpeZHyZ8QVnOYVDxOk8XRQ8T_LsKmU8WY4UviYFNn4D5zpzSQ)
+```mermaid
+graph TD
+    NotExist[Notification_NotExist] -->|SendNotificationV1Request| Notification{Notification_Exist}
+    Notification --> |ASK| Notification
+```
