@@ -1,6 +1,6 @@
 # Тест план
 
-## Базовый тест-план
+## Расширенный тест-план
 
 ## ActDeviceApiService
 
@@ -18,10 +18,12 @@
 
 #### Тестовые данные:
 
-| platform | user_id | Ожидаемый результат |
-|----------|---------|---------------------|
-| ios      | 2       | &check;             |
-| android  | 3       | &check;             |
+| platform      | user_id | Ожидаемый результат |
+|---------------|---------|---------------------|
+| ios           | 2       | &check;             |
+| android       | 3       | &check;             |
+| windows_phone | -1      | &cross;             |
+| ""            | Null    | &cross;             |
 
 
 ### Тест 2 Редактирование устройства GRPC
@@ -40,10 +42,14 @@
 
 #### Тестовые данные:
 
-| platform | user_id | new_platform | Ожидаемый результат |
-|----------|---------|--------------|---------------------|
-| ios      | 4       | android      | &check;             |
-| android  | 5       | ios          | &check;             |
+| platform      | user_id | new_platform                      | Ожидаемый результат |
+|---------------|---------|-----------------------------------|---------------------|
+| ios           | 4       | android                           | &check;             |
+| android       | 5       | ios                               | &check;             |
+| windows_phone | -1      | ios                               | &cross;             |
+| ""            | Null    | macos                             | &cross;             |
+| android       | 5       |                                   | &cross;             |
+| ios           | 4       | androoidandrooidandrooidandrooidz | &cross;             |
 
 ### Тест 3 Удаление устройства GRPC
 
@@ -65,6 +71,7 @@
 |----------|---------|--------------|---------------------|
 | ios      | 6       | android      | &check;             |
 | android  | 7       | ios          | &check;             |
+| ""       | Null    | Null         | &cross;             |
 
 ### Тест 4 Список устройств GRPC
 
@@ -83,6 +90,8 @@
 |------|----------|---------------------|
 | 0    | 1        | &check;             |
 | 1    | 5        | &check;             |
+| -1   | 0        | &cross;             |
+| qwe  | qwe      | &cross;             |
 
 
 ## ActNotificationApiService
