@@ -23,30 +23,40 @@ func TestRemoveDevice(t *testing.T) {
 			t.Logf("conn.Close err: %v", err)
 		}
 	}(conn)
-
+	type testCasePositive struct {
+		Platform string
+		UserId   uint64
+	}
+	testsCreateDevicePositive := []testCasePositive{
+		{"Ios", 5342},
+		{"Android", 35456435},
+		{"Ubuntu", 4353452},
+	}
 	actDeviceApiClient := act_device_api.NewActDeviceApiServiceClient(conn)
+	for _, tc := range testsCreateDevicePositive {
 
-	t.Run("RemoveDevice valid", func(t *testing.T) {
-		req := act_device_api.CreateDeviceV1Request{
-			Platform: "Android",
-			UserId:   123000,
-		}
+		t.Run("RemoveDevice valid", func(t *testing.T) {
+			req := act_device_api.CreateDeviceV1Request{
+				Platform: tc.Platform,
+				UserId:   tc.UserId,
+			}
 
-		res, err := actDeviceApiClient.CreateDeviceV1(ctx, &req)
-		require.NoError(t, err)
-		require.NotNil(t, res)
+			res, err := actDeviceApiClient.CreateDeviceV1(ctx, &req)
+			require.NoError(t, err)
+			require.NotNil(t, res)
 
-		assert.GreaterOrEqual(t, res.DeviceId, uint64(1))
+			assert.GreaterOrEqual(t, res.DeviceId, uint64(1))
 
-		reqUpd := act_device_api.RemoveDeviceV1Request{
-			DeviceId: res.DeviceId,
-		}
-		resUpd, err := actDeviceApiClient.RemoveDeviceV1(ctx, &reqUpd)
-		require.NoError(t, err)
-		require.NotNil(t, res)
+			reqUpd := act_device_api.RemoveDeviceV1Request{
+				DeviceId: res.DeviceId,
+			}
+			resUpd, err := actDeviceApiClient.RemoveDeviceV1(ctx, &reqUpd)
+			require.NoError(t, err)
+			require.NotNil(t, res)
 
-		assert.Equal(t, resUpd.Found, true, "Device removed")
+			assert.Equal(t, resUpd.Found, true, "Device removed")
 
-	})
+		})
+	}
 
 }

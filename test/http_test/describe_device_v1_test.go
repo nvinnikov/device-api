@@ -2,8 +2,6 @@ package http_test
 
 import (
 	"context"
-	"crypto/rand"
-	"math/big"
 	"strconv"
 	"testing"
 	"time"
@@ -17,31 +15,36 @@ import (
 
 func TestDescribeDevice(t *testing.T) {
 
+	type testCasePositive struct {
+		Platform string
+		UserId   string
+	}
+	testsDescribeDevicePositive := []testCasePositive{
+		{"Ios", "111"},
+		{"Android", "999"},
+		{"Ubuntu", "555"},
+	}
 	var URL = envy.Get("BASE_URL", "http://127.0.0.1:8080")
+	for _, tc := range testsDescribeDevicePositive {
 
-	t.Run("Describe device", func(t *testing.T) {
-		// Arrange
-		n, err := rand.Int(rand.Reader, big.NewInt(1000))
-		if err != nil {
-			t.Error("error:", err)
-		}
-		client := apiClient.NewHTTPClient(URL, 5, 1*time.Second)
-		platform, userID := "Ubuntu", strconv.Itoa(int(n.Int64()))
-		deviceCreate := models.CreateDeviceRequest{
-			Platform: platform,
-			UserID:   userID,
-		}
-		ctx := context.Background()
+		t.Run("Describe device", func(t *testing.T) {
+			// Arrange
+			client := apiClient.NewHTTPClient(URL, 5, 1*time.Second)
+			deviceCreate := models.CreateDeviceRequest{
+				Platform: tc.Platform,
+				UserID:   tc.UserId,
+			}
+			ctx := context.Background()
 
-		// Act
-		id, _, _ := client.CreateDevice(ctx, deviceCreate)
-		items, _, _ := client.DescribeDevice(ctx, strconv.Itoa(id.DeviceID))
+			// Act
+			id, _, _ := client.CreateDevice(ctx, deviceCreate)
+			items, _, _ := client.DescribeDevice(ctx, strconv.Itoa(id.DeviceID))
 
-		// Assert
-		assert.Equal(t, items.Value.ID, strconv.Itoa(id.DeviceID))
-		assert.Equal(t, items.Value.Platform, platform)
-		assert.Equal(t, items.Value.UserID, userID)
+			// Assert
+			assert.Equal(t, items.Value.ID, strconv.Itoa(id.DeviceID))
+			assert.Equal(t, items.Value.Platform, tc.Platform)
+			assert.Equal(t, items.Value.UserID, tc.UserId)
 
-	})
-
+		})
+	}
 }

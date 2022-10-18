@@ -2,6 +2,7 @@ package http_test
 
 import (
 	"context"
+	"github.com/stretchr/testify/require"
 	"net/url"
 	"testing"
 	"time"
@@ -12,20 +13,54 @@ import (
 )
 
 func TestListDevices(t *testing.T) {
-	t.Run("Get devices", func(t *testing.T) {
+	type testCasePositive struct {
+		Page    string
+		PerPage string
+	}
+	testsListDevicesPositive := []testCasePositive{
+		{"1", "10"},
+		{"1", "20"},
+		{"2", "10"},
+	}
+	testsListDevicesNegative := []testCasePositive{
+		{"0", "10"},
+	}
+	for _, tc := range testsListDevicesPositive {
 
-		// Arrange
-		var URL = envy.Get("BASE_URL", "http://127.0.0.1:8080")
-		client := apiClient.NewHTTPClient(URL, 5, 1*time.Second)
-		opts := url.Values{}
-		opts.Add("page", "1")
-		opts.Add("perPage", "100")
-		ctx := context.Background()
+		t.Run("Get devices", func(t *testing.T) {
 
-		// Act
-		items, _, _ := client.ListDevices(ctx, opts)
+			// Arrange
+			var URL = envy.Get("BASE_URL", "http://127.0.0.1:8080")
+			client := apiClient.NewHTTPClient(URL, 5, 1*time.Second)
+			opts := url.Values{}
+			opts.Add("page", tc.Page)
+			opts.Add("perPage", tc.PerPage)
+			ctx := context.Background()
 
-		// Assert
-		assert.GreaterOrEqual(t, len(items.Items), 1)
-	})
+			// Act
+			items, _, _ := client.ListDevices(ctx, opts)
+
+			// Assert
+			assert.GreaterOrEqual(t, len(items.Items), 1)
+		})
+	}
+	for _, tc := range testsListDevicesNegative {
+
+		t.Run("Get devices", func(t *testing.T) {
+
+			// Arrange
+			var URL = envy.Get("BASE_URL", "http://127.0.0.1:8080")
+			client := apiClient.NewHTTPClient(URL, 5, 1*time.Second)
+			opts := url.Values{}
+			opts.Add("page", tc.Page)
+			opts.Add("perPage", tc.PerPage)
+			ctx := context.Background()
+
+			// Act
+			_, _, err := client.ListDevices(ctx, opts)
+
+			// Assert
+			require.NotNil(t, err)
+		})
+	}
 }

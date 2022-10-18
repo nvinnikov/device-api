@@ -14,22 +14,32 @@ import (
 
 func TestDeleteDevice(t *testing.T) {
 
+	type testCasePositive struct {
+		Platform string
+		UserId   string
+	}
+	testsCreateDevicePositive := []testCasePositive{
+		{"Ios", "5342"},
+		{"Android", "35456435"},
+		{"Ubuntu", "4353452"},
+	}
 	var URL = envy.Get("BASE_URL", "http://127.0.0.1:8080")
+	for _, tc := range testsCreateDevicePositive {
+		t.Run("Delete device", func(t *testing.T) {
+			// Arrange
+			client := apiClient.NewHTTPClient(URL, 5, 1*time.Second)
+			device := models.CreateDeviceRequest{
+				Platform: tc.Platform,
+				UserID:   tc.UserId,
+			}
+			ctx := context.Background()
 
-	t.Run("Delete device", func(t *testing.T) {
-		// Arrange
-		client := apiClient.NewHTTPClient(URL, 5, 1*time.Second)
-		device := models.CreateDeviceRequest{
-			Platform: "Ubuntu",
-			UserID:   "701",
-		}
-		ctx := context.Background()
+			// Act
+			id, _, _ := client.CreateDevice(ctx, device)
+			deletedDevice, _, _ := client.RemoveDevice(ctx, strconv.Itoa(id.DeviceID))
 
-		// Act
-		id, _, _ := client.CreateDevice(ctx, device)
-		deletedDevice, _, _ := client.RemoveDevice(ctx, strconv.Itoa(id.DeviceID))
-
-		// Assert
-		assert.Equal(t, deletedDevice.Found, true, "Device deleted")
-	})
+			// Assert
+			assert.Equal(t, deletedDevice.Found, true, "Device deleted")
+		})
+	}
 }

@@ -2,8 +2,6 @@ package http_test
 
 import (
 	"context"
-	"crypto/rand"
-	"math/big"
 	"strconv"
 	"testing"
 	"time"
@@ -18,45 +16,77 @@ import (
 func TestCreateDevice(t *testing.T) {
 
 	var URL = envy.Get("BASE_URL", "http://127.0.0.1:8080")
+	valueLenErr := "rpc error: code = InvalidArgument desc = invalid CreateDeviceV1Request.Platform: value length must be at least 1 runes"
+	type testCasePositive struct {
+		Platform string
+		UserId   string
+	}
+	type testCaseNegative struct {
+		Platform string
+		UserId   string
+		err      string
+	}
+	testsCreateDevicePositive := []testCasePositive{
+		{"Ios", "111"},
+		{"Android", "999"},
+		{"Ubuntu", "555"},
+	}
+	testCreateDeviceNegative := []testCaseNegative{
+		{"", "665", valueLenErr},
+	}
+	for _, tc := range testsCreateDevicePositive {
+		t.Run("Create device", func(t *testing.T) {
+			// Arrange
+			client := apiClient.NewHTTPClient(URL, 5, 1*time.Second)
+			device := models.CreateDeviceRequest{
+				Platform: tc.Platform,
+				UserID:   tc.UserId,
+			}
+			ctx := context.Background()
 
-	t.Run("Create device", func(t *testing.T) {
-		// Arrange
-		client := apiClient.NewHTTPClient(URL, 5, 1*time.Second)
-		device := models.CreateDeviceRequest{
-			Platform: "Ubuntu",
-			UserID:   "701",
-		}
-		ctx := context.Background()
+			// Act
+			id, _, _ := client.CreateDevice(ctx, device)
 
-		// Act
-		id, _, _ := client.CreateDevice(ctx, device)
+			// Assert
+			assert.GreaterOrEqual(t, id.DeviceID, int(1))
+		})
+	}
+	for _, tc := range testsCreateDevicePositive {
+		t.Run("Create device and check description", func(t *testing.T) {
 
-		// Assert
-		assert.GreaterOrEqual(t, id.DeviceID, 0)
-	})
+			// Arrange
+			client := apiClient.NewHTTPClient(URL, 5, 1*time.Second)
+			device := models.CreateDeviceRequest{
+				Platform: tc.Platform,
+				UserID:   tc.UserId,
+			}
+			ctx := context.Background()
 
-	t.Run("Create device and check description", func(t *testing.T) {
+			// Act
+			id, _, _ := client.CreateDevice(ctx, device)
+			description, _, _ := client.DescribeDevice(ctx, strconv.Itoa(id.DeviceID))
 
-		// Arrange
-		n, err := rand.Int(rand.Reader, big.NewInt(1000))
-		if err != nil {
-			t.Error("error:", err)
-		}
-		client := apiClient.NewHTTPClient(URL, 5, 1*time.Second)
-		platform, userID := "Ubuntu", strconv.Itoa(int(n.Int64()))
-		device := models.CreateDeviceRequest{
-			Platform: platform,
-			UserID:   userID,
-		}
-		ctx := context.Background()
+			// Assert
+			assert.Equal(t, description.Value.ID, strconv.Itoa(id.DeviceID))
+			assert.Equal(t, description.Value.Platform, tc.Platform)
+			assert.Equal(t, description.Value.UserID, tc.UserId)
+		})
+	}
+	for _, tc := range testCreateDeviceNegative {
+		t.Run("Create device Negative", func(t *testing.T) {
+			// Arrange
+			client := apiClient.NewHTTPClient(URL, 5, 1*time.Second)
+			device := models.CreateDeviceRequest{
+				Platform: tc.Platform,
+				UserID:   tc.UserId,
+			}
+			ctx := context.Background()
 
-		// Act
-		id, _, _ := client.CreateDevice(ctx, device)
-		description, _, _ := client.DescribeDevice(ctx, strconv.Itoa(id.DeviceID))
+			// Act
+			_, resp, _ := client.CreateDevice(ctx, device)
 
-		// Assert
-		assert.Equal(t, description.Value.ID, strconv.Itoa(id.DeviceID))
-		assert.Equal(t, description.Value.Platform, platform)
-		assert.Equal(t, description.Value.UserID, userID)
-	})
+			// Assert
+			assert.Equal(t, resp.StatusCode, 400)
+		})
+	}
 }

@@ -27,28 +27,59 @@ func TestDescribeDevice(t *testing.T) {
 	}(conn)
 
 	actDeviceApiClient := act_device_api.NewActDeviceApiServiceClient(conn)
+	type testCasePositive struct {
+		Platform string
+		UserId   uint64
+	}
+	type testCaseNegative struct {
+		DeviceId uint64
+		result   string
+	}
+	testsDescribeDevicePositive := []testCasePositive{
+		{"Ios", 111},
+		{"Android", 999},
+		{"Ubuntu", 555},
+	}
+	testDescribeDeviceNegative := []testCaseNegative{
+		{100, "rpc error: code = NotFound desc = device not found"},
+		{0, "rpc error: code = InvalidArgument desc = invalid DescribeDeviceV1Request.DeviceId: value must be greater than 0"},
+		{99999, "rpc error: code = NotFound desc = device not found"},
+	}
+	for _, tc := range testsDescribeDevicePositive {
+		t.Run("CreateDevice and check DescribeDevice", func(t *testing.T) {
 
-	t.Run("DescribeDevice existing", func(t *testing.T) {
-		req := act_device_api.DescribeDeviceV1Request{
-			DeviceId: 1,
-		}
+			req := act_device_api.CreateDeviceV1Request{
+				Platform: tc.Platform,
+				UserId:   tc.UserId,
+			}
+			res, err := actDeviceApiClient.CreateDeviceV1(ctx, &req)
+			// Assert
+			require.NoError(t, err)
+			require.NotNil(t, res)
+			assert.GreaterOrEqual(t, res.DeviceId, uint64(1))
+			describeReq := act_device_api.DescribeDeviceV1Request{
+				DeviceId: res.DeviceId,
+			}
+			description, _ := actDeviceApiClient.DescribeDeviceV1(ctx, &describeReq)
+			// Assert
+			require.NoError(t, err)
+			require.NotNil(t, res)
+			assert.Equal(t, description.Value.Id, res.DeviceId)
+			assert.Equal(t, description.Value.Platform, tc.Platform)
+			assert.Equal(t, description.Value.UserId, tc.UserId)
+			assert.Contains(t, "Android, Ios", description.Value.Platform)
+			assert.NotEmpty(t, description.Value.UserId)
+			assert.NotEmpty(t, description.Value.EnteredAt)
+		})
+	}
+	for _, tc := range testDescribeDeviceNegative {
+		t.Run("DescribeDevice not existing", func(t *testing.T) {
+			req := act_device_api.DescribeDeviceV1Request{
+				DeviceId: tc.DeviceId,
+			}
 
-		res, err := actDeviceApiClient.DescribeDeviceV1(ctx, &req)
-		require.NoError(t, err)
-		require.NotNil(t, res)
-
-		assert.EqualValues(t, res.Value.Id, 1)
-		assert.Contains(t, "Android, Ios", res.Value.Platform)
-		assert.NotEmpty(t, res.Value.UserId)
-		assert.NotEmpty(t, res.Value.EnteredAt)
-	})
-
-	t.Run("DescribeDevice not existing", func(t *testing.T) {
-		req := act_device_api.DescribeDeviceV1Request{
-			DeviceId: 100,
-		}
-
-		_, err := actDeviceApiClient.DescribeDeviceV1(ctx, &req)
-		assert.Equal(t, err.Error(), "rpc error: code = NotFound desc = device not found")
-	})
+			_, err := actDeviceApiClient.DescribeDeviceV1(ctx, &req)
+			assert.Equal(t, err.Error(), tc.result)
+		})
+	}
 }
