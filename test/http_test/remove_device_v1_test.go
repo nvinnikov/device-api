@@ -35,8 +35,10 @@ func TestDeleteDevice(t *testing.T) {
 			ctx := context.Background()
 
 			// Act
-			id, _, _ := client.CreateDevice(ctx, device)
-			deletedDevice, _, _ := client.RemoveDevice(ctx, strconv.Itoa(id.DeviceID))
+			id, _, err := client.CreateDevice(ctx, device)
+			assert.NoError(t, err)
+			deletedDevice, _, err := client.RemoveDevice(ctx, strconv.Itoa(id.DeviceID))
+			assert.NoError(t, err)
 
 			// Assert
 			assert.True(t, deletedDevice.Found)

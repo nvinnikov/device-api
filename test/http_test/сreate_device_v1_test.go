@@ -45,7 +45,8 @@ func TestCreateDevice(t *testing.T) {
 			ctx := context.Background()
 
 			// Act
-			id, _, _ := client.CreateDevice(ctx, device)
+			id, _, err := client.CreateDevice(ctx, device)
+			assert.NoError(t, err)
 
 			// Assert
 			assert.GreaterOrEqual(t, id.DeviceID, int(1))
@@ -63,8 +64,10 @@ func TestCreateDevice(t *testing.T) {
 			ctx := context.Background()
 
 			// Act
-			id, _, _ := client.CreateDevice(ctx, device)
-			description, _, _ := client.DescribeDevice(ctx, strconv.Itoa(id.DeviceID))
+			id, _, err := client.CreateDevice(ctx, device)
+			assert.NoError(t, err)
+			description, _, err := client.DescribeDevice(ctx, strconv.Itoa(id.DeviceID))
+			assert.NoError(t, err)
 
 			// Assert
 			assert.Equal(t, description.Value.ID, strconv.Itoa(id.DeviceID))

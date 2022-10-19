@@ -38,9 +38,10 @@ func TestListDevices(t *testing.T) {
 			ctx := context.Background()
 
 			// Act
-			items, _, _ := client.ListDevices(ctx, opts)
+			items, _, err := client.ListDevices(ctx, opts)
 
 			// Assert
+			assert.NoError(t, err)
 			assert.GreaterOrEqual(t, len(items.Items), 1)
 		})
 	}

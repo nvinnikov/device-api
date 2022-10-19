@@ -42,8 +42,11 @@ func TestUpdateDevice(t *testing.T) {
 			ctx := context.Background()
 
 			// Act
-			id, _, _ := client.CreateDevice(ctx, deviceCreate)
-			updateResult, _, _ := client.UpdateDevice(ctx, strconv.Itoa(id.DeviceID), deviceUpdate)
+			id, _, err := client.CreateDevice(ctx, deviceCreate)
+			assert.NoError(t, err)
+
+			updateResult, _, err := client.UpdateDevice(ctx, strconv.Itoa(id.DeviceID), deviceUpdate)
+			assert.NoError(t, err)
 
 			// Assert
 			assert.Equal(t, updateResult.Success, true, "Device updated")
