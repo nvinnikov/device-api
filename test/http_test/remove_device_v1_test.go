@@ -39,7 +39,7 @@ func TestDeleteDevice(t *testing.T) {
 			deletedDevice, _, _ := client.RemoveDevice(ctx, strconv.Itoa(id.DeviceID))
 
 			// Assert
-			assert.Equal(t, deletedDevice.Found, true, "Device deleted")
+			assert.True(t, deletedDevice.Found)
 		})
 	}
 }

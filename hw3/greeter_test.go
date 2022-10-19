@@ -3,7 +3,8 @@ package greeter_test
 import (
 	"fmt"
 	"github.com/stretchr/testify/assert"
-	M "gitlab.ozon.dev/qa/classroom-4/act-device-api/hw3"
+	Grt "gitlab.ozon.dev/qa/classroom-4/act-device-api/hw3"
+	"math"
 	"testing"
 )
 
@@ -14,6 +15,7 @@ func TestGreet(t *testing.T) {
 		expected string
 	}
 	testsHour := []testCase{
+		{"N", math.MinInt, "Hello N!"},
 		{"N", -1, "Hello N!"},
 		{"N", 0, "Good night N!"},
 		{"N", 6, "Good morning N!"},
@@ -21,6 +23,7 @@ func TestGreet(t *testing.T) {
 		{"N", 18, "Good evening N!"},
 		{"N", 22, "Good night N!"},
 		{"N", 24, "Hello N!"},
+		{"N", math.MaxInt, "Hello N!"},
 	}
 	testsTitleName := []testCase{
 		{"NIK", 0, "Good night NIK!"},
@@ -38,21 +41,21 @@ func TestGreet(t *testing.T) {
 	for _, tc := range testsHour {
 		testName := fmt.Sprintf("%s, %d, %s", tc.name, tc.hour, tc.expected)
 		t.Run(testName, func(t *testing.T) {
-			result := M.Greet(tc.name, tc.hour)
+			result := Grt.Greet(tc.name, tc.hour)
 			assert.Equal(t, tc.expected, result, "expected: %v, result: %v", tc.expected, result)
 		})
 	}
 	for _, tc := range testsTitleName {
 		testName := fmt.Sprintf("%s, %d, %s", tc.name, tc.hour, tc.expected)
 		t.Run(testName, func(t *testing.T) {
-			result := M.Greet(tc.name, tc.hour)
+			result := Grt.Greet(tc.name, tc.hour)
 			assert.Equal(t, tc.expected, result, "expected: %v, result: %v", tc.expected, result)
 		})
 	}
 	for _, tc := range testsSpaceName {
 		testName := fmt.Sprintf("%s, %d, %s", tc.name, tc.hour, tc.expected)
 		t.Run(testName, func(t *testing.T) {
-			result := M.Greet(tc.name, tc.hour)
+			result := Grt.Greet(tc.name, tc.hour)
 			assert.Equal(t, tc.expected, result, "expected: %v, result: %v", tc.expected, result)
 		})
 	}
@@ -88,21 +91,21 @@ func TestNewGreet(t *testing.T) {
 	for _, tc := range testsHour {
 		testName := fmt.Sprintf("%s, %d, %s", tc.name, tc.hour, tc.expected)
 		t.Run(testName, func(t *testing.T) {
-			result := M.NewGreet(tc.name, tc.hour)
+			result := Grt.NewGreet(tc.name, tc.hour)
 			assert.Equal(t, tc.expected, result, "expected: %v, result: %v", tc.expected, result)
 		})
 	}
 	for _, tc := range testsTitleName {
 		testName := fmt.Sprintf("%s, %d, %s", tc.name, tc.hour, tc.expected)
 		t.Run(testName, func(t *testing.T) {
-			result := M.NewGreet(tc.name, tc.hour)
+			result := Grt.NewGreet(tc.name, tc.hour)
 			assert.Equal(t, tc.expected, result, "expected: %v, result: %v", tc.expected, result)
 		})
 	}
 	for _, tc := range testsSpaceName {
 		testName := fmt.Sprintf("%s, %d, %s", tc.name, tc.hour, tc.expected)
 		t.Run(testName, func(t *testing.T) {
-			result := M.NewGreet(tc.name, tc.hour)
+			result := Grt.NewGreet(tc.name, tc.hour)
 			assert.Equal(t, tc.expected, result, "expected: %v, result: %v", tc.expected, result)
 		})
 	}

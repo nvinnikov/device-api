@@ -2,11 +2,13 @@ package grpc_notification_test
 
 import (
 	"context"
+	"testing"
+
+	"google.golang.org/grpc"
+
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 	act_device_api "gitlab.ozon.dev/qa/classroom-4/act-device-api/pkg/act-device-api/gitlab.ozon.dev/qa/classroom-4/act-device-api/pkg/act-device-api"
-	"google.golang.org/grpc"
-	"testing"
 )
 
 func TestSendNotification(t *testing.T) {

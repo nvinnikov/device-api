@@ -37,9 +37,10 @@ func TestDescribeDevice(t *testing.T) {
 			ctx := context.Background()
 
 			// Act
-			id, _, _ := client.CreateDevice(ctx, deviceCreate)
-			items, _, _ := client.DescribeDevice(ctx, strconv.Itoa(id.DeviceID))
-
+			id, _, err := client.CreateDevice(ctx, deviceCreate)
+			assert.Nil(t, err)
+			items, _, err := client.DescribeDevice(ctx, strconv.Itoa(id.DeviceID))
+			assert.Nil(t, err)
 			// Assert
 			assert.Equal(t, items.Value.ID, strconv.Itoa(id.DeviceID))
 			assert.Equal(t, items.Value.Platform, tc.Platform)

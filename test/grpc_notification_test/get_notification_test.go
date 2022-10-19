@@ -2,11 +2,12 @@ package grpc_notification
 
 import (
 	"context"
-	"fmt"
+	"testing"
+
+	"google.golang.org/grpc"
+
 	"github.com/stretchr/testify/require"
 	act_device_api "gitlab.ozon.dev/qa/classroom-4/act-device-api/pkg/act-device-api/gitlab.ozon.dev/qa/classroom-4/act-device-api/pkg/act-device-api"
-	"google.golang.org/grpc"
-	"testing"
 )
 
 func TestGetNotification(t *testing.T) {
@@ -19,7 +20,7 @@ func TestGetNotification(t *testing.T) {
 	defer func(conn *grpc.ClientConn) {
 		err := conn.Close()
 		if err != nil {
-			t.Logf("conn.Close err: %v", err)
+			t.Fatalf("conn.Close err: %v", err)
 		}
 	}(conn)
 
@@ -31,7 +32,6 @@ func TestGetNotification(t *testing.T) {
 		}
 
 		res, err := actDeviceApiClient.GetNotification(ctx, &req)
-		fmt.Print(res)
 		require.NoError(t, err)
 		require.NotNil(t, res)
 
