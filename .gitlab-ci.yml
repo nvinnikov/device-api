@@ -129,9 +129,15 @@ http test:
   script:
     - go test -json -tags httptest ./test/... > out.json
     - cat out.json
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "QAHW-4"'
+      when: never
 
 grpc test:
   extends: .e2e
   script:
     - go test -json -tags grpctest ./test/... > out.json
     - cat out.json
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "QAHW-4"'
+      when: never
