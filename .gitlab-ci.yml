@@ -111,7 +111,7 @@ http test:
     - apk add --update make curl git protoc protobuf protobuf-dev build-base
     - go install gotest.tools/gotestsum@latest
     - make deps-go
-    - ./bin/grpc_test &
+    - ./bin/grpc-server &
     - sleep 5
   script:
     - go test -json -tags e2e_test ./test/... > out.json
