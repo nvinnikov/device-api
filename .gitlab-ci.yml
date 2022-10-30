@@ -138,6 +138,3 @@ grpc test:
   script:
     - go test -json -tags grpctest ./test/... > out.json
     - cat out.json
-  rules:
-    - if: '$CI_COMMIT_BRANCH == "QAHW-4"'
-      when: never

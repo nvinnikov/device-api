@@ -1,3 +1,6 @@
+//go:build n
+// +build n
+
 package greeter_test
 
 import (
