@@ -114,4 +114,7 @@ http test:
     - ./bin/grpc-server &
     - sleep 5
   script:
-    - echo "Run http tests"
+    - go test -json -tags e2e_test ./test/... > out.json
+    - cat out.json | gotestsum --format testname --junitfile junit-report.xml
+    - make gotestsum
+  coverage: '/^total:\s+\(statements\)\s+\d+.\d+%$/'
