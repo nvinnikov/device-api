@@ -47,7 +47,7 @@ services:
     container_name: zookeeper
     image: confluentinc/cp-zookeeper:7.1.0
 #    platform: linux/x86_64
-#    platform: linux/amd64 - раскомментировать, если у вас mac m1
+    platform: linux/amd64
     restart: unless-stopped
     ports:
       - 2181:2181
@@ -63,7 +63,7 @@ services:
     container_name: kafka_1
     image: confluentinc/cp-kafka:7.1.0
 #    platform: linux/x86_64
-#    platform: linux/amd64 - раскомментировать, если у вас mac m1
+    platform: linux/amd64
     restart: unless-stopped
     depends_on:
       - zookeeper
