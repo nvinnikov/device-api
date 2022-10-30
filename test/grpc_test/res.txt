@@ -1,0 +1,49 @@
+=== RUN   TestCreateDevice
+=== RUN   TestCreateDevice/CreateDevice_valid
+=== RUN   TestCreateDevice/CreateDevice_valid#01
+=== RUN   TestCreateDevice/CreateDevice_valid#02
+=== RUN   TestCreateDevice/CreateDevice_and_check_Description
+=== RUN   TestCreateDevice/CreateDevice_and_check_Description#01
+=== RUN   TestCreateDevice/CreateDevice_and_check_Description#02
+=== RUN   TestCreateDevice/CreateDevice_invalid
+--- PASS: TestCreateDevice (0.05s)
+    --- PASS: TestCreateDevice/CreateDevice_valid (0.02s)
+    --- PASS: TestCreateDevice/CreateDevice_valid#01 (0.01s)
+    --- PASS: TestCreateDevice/CreateDevice_valid#02 (0.00s)
+    --- PASS: TestCreateDevice/CreateDevice_and_check_Description (0.01s)
+    --- PASS: TestCreateDevice/CreateDevice_and_check_Description#01 (0.01s)
+    --- PASS: TestCreateDevice/CreateDevice_and_check_Description#02 (0.01s)
+    --- PASS: TestCreateDevice/CreateDevice_invalid (0.00s)
+=== RUN   TestDescribeDevice
+=== RUN   TestDescribeDevice/CreateDevice_and_check_DescribeDevice
+=== RUN   TestDescribeDevice/CreateDevice_and_check_DescribeDevice#01
+=== RUN   TestDescribeDevice/CreateDevice_and_check_DescribeDevice#02
+    describe_device_test.go:70: 
+        	Error Trace:	/Users/nvinnikov/Documents/ozon/device-api/test/grpc_test/describe_device_test.go:70
+        	Error:      	"Android, Ios" does not contain "Ubuntu"
+        	Test:       	TestDescribeDevice/CreateDevice_and_check_DescribeDevice#02
+=== RUN   TestDescribeDevice/DescribeDevice_not_existing
+--- FAIL: TestDescribeDevice (0.02s)
+    --- PASS: TestDescribeDevice/CreateDevice_and_check_DescribeDevice (0.01s)
+    --- PASS: TestDescribeDevice/CreateDevice_and_check_DescribeDevice#01 (0.00s)
+    --- FAIL: TestDescribeDevice/CreateDevice_and_check_DescribeDevice#02 (0.00s)
+    --- FAIL: TestDescribeDevice/DescribeDevice_not_existing (0.00s)
+panic: runtime error: invalid memory address or nil pointer dereference [recovered]
+	panic: runtime error: invalid memory address or nil pointer dereference
+[signal SIGSEGV: segmentation violation code=0x2 addr=0x18 pc=0x101042238]
+
+goroutine 15 [running]:
+testing.tRunner.func1.2({0x10118a960, 0x101558220})
+	/opt/homebrew/Cellar/go/1.19.1/libexec/src/testing/testing.go:1396 +0x1c8
+testing.tRunner.func1()
+	/opt/homebrew/Cellar/go/1.19.1/libexec/src/testing/testing.go:1399 +0x378
+panic({0x10118a960, 0x101558220})
+	/opt/homebrew/Cellar/go/1.19.1/libexec/src/runtime/panic.go:884 +0x204
+gitlab.ozon.dev/qa/classroom-4/act-device-api/test/grpc_test_test.TestDescribeDevice.func3(0x0?)
+	/Users/nvinnikov/Documents/ozon/device-api/test/grpc_test/describe_device_test.go:82 +0xc8
+testing.tRunner(0x14000003d40, 0x140000c20c0)
+	/opt/homebrew/Cellar/go/1.19.1/libexec/src/testing/testing.go:1446 +0x10c
+created by testing.(*T).Run
+	/opt/homebrew/Cellar/go/1.19.1/libexec/src/testing/testing.go:1493 +0x300
+exit status 2
+FAIL	gitlab.ozon.dev/qa/classroom-4/act-device-api/test/grpc_test	0.329s

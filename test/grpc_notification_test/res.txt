@@ -1,0 +1,32 @@
+=== RUN   TestGetNotification
+=== RUN   TestGetNotification/GetNotification_valid
+--- PASS: TestGetNotification (0.06s)
+    --- PASS: TestGetNotification/GetNotification_valid (0.06s)
+=== RUN   TestSubscribeNotification
+=== RUN   TestSubscribeNotification/GetNotification_valid
+=== RUN   TestSubscribeNotification/GetNotification_valid/SendNotification_valid
+Response from SendNotification: 2911 Good afternoon nikita
+=== RUN   TestSubscribeNotification/GetNotification_valid/SendNotification_valid#01
+Response from SendNotification: 2912 Добрый вечер nikita
+=== RUN   TestSubscribeNotification/GetNotification_valid/SendNotification_valid#02
+Response from SendNotification: 2913 Buenas noches nikita
+=== RUN   TestSubscribeNotification/GetNotification_valid/SendNotification_valid#03
+Response from SendNotification: 2914 Buona serata nikita
+--- PASS: TestSubscribeNotification (0.02s)
+    --- PASS: TestSubscribeNotification/GetNotification_valid (0.02s)
+        --- PASS: TestSubscribeNotification/GetNotification_valid/SendNotification_valid (0.01s)
+        --- PASS: TestSubscribeNotification/GetNotification_valid/SendNotification_valid#01 (0.00s)
+        --- PASS: TestSubscribeNotification/GetNotification_valid/SendNotification_valid#02 (0.00s)
+        --- PASS: TestSubscribeNotification/GetNotification_valid/SendNotification_valid#03 (0.00s)
+=== RUN   TestSendNotification
+=== RUN   TestSendNotification/SendNotification_valid
+=== RUN   TestSendNotification/SendNotification_valid#01
+=== RUN   TestSendNotification/SendNotification_valid#02
+=== RUN   TestSendNotification/SendNotification_valid#03
+--- PASS: TestSendNotification (0.01s)
+    --- PASS: TestSendNotification/SendNotification_valid (0.00s)
+    --- PASS: TestSendNotification/SendNotification_valid#01 (0.00s)
+    --- PASS: TestSendNotification/SendNotification_valid#02 (0.00s)
+    --- PASS: TestSendNotification/SendNotification_valid#03 (0.00s)
+PASS
+ok  	gitlab.ozon.dev/qa/classroom-4/act-device-api/test/grpc_notification_test	0.270s
