@@ -68,7 +68,7 @@ pre-commit:
     - cat pre-commit.json
   artifacts:
     paths:
-      - /pre-commit.json
+      - pre-commit.json
     expire_in: 1 month
 
 http test:
