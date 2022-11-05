@@ -43,7 +43,7 @@ build:
     - apk add --update make curl git protoc protobuf protobuf-dev build-base
     - go install gotest.tools/gotestsum@latest
     - make deps-go
-    - make build
+    - make build-go
     - make dc-up
     - ./bin/grpc-server &
     - sleep 5
