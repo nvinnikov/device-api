@@ -68,7 +68,7 @@ pre-commit:
     - cat pre-commit.json
   artifacts:
     paths:
-      - /*.json
+      - /pre-commit.json
     expire_in: 1 month
 
 http test:
@@ -79,7 +79,7 @@ http test:
     - "go test -json -tags=httptest ./test/... >> http_out.xml"
   artifacts:
       paths:
-        - ./*.xml
+        - ./http_out.xml
       expire_in: 1 month
 
 grpc test:
