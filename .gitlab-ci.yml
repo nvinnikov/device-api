@@ -69,6 +69,8 @@ pre-commit:
 
 http test:
   stage: e2e
+  before_script:
+    - ./docker_install.sh > /dev/null
   script:
     - echo "Run http tests"
     - ENV CGO_ENABLED 0
