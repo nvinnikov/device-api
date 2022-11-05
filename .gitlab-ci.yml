@@ -56,7 +56,7 @@ linter:
   image: gitlab.ozon.dev/qa/classroom-4/students/dependency_proxy/containers/golangci/golangci-lint
   script:
     - echo "Run linters"
-    - golangci-lint run > lint.json
+    - golangci-lint run
     - cat lint.json
 
 pre-commit:
