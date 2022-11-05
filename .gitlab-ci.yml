@@ -58,7 +58,6 @@ linter:
   script:
     - echo "Run linters"
     - golangci-lint run
-    - cat lint.json
 
 pre-commit:
   stage: build
