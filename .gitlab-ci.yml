@@ -78,7 +78,7 @@ close release:
   stage: close
   script:
     - echo "Ready to prod"
-.e2e:
+http test:
   stage: e2e
   services:
     - name: gitlab.ozon.dev/qa/classroom-4/students/dependency_proxy/containers/postgres:12
@@ -112,28 +112,10 @@ close release:
     - make deps-go
     - ./bin/grpc-server &
     - sleep 5
-  after_script:
-    - cat out.json | gotestsum --format testname --junitfile junit-report.xml
-  artifacts:
-    paths:
-      - out.json
-    reports:
-      junit: junit-report.xml
-    expire_in: 1 day
-  needs:
-    - build
-    - staging
-
-http test:
-  extends: .e2e
   script:
+    - echo "Run http tests"
     - go test -json -tags httptest ./test/... > out.json
     - cat out.json
-
-
-grpc test:
-  extends: .e2e
-  script:
     - go test -json -tags grpctest ./test/... > out.json
     - cat out.json
   rules:
