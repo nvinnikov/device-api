@@ -76,10 +76,10 @@ http test:
   script:
     - echo "Run http tests"
     - export CGO_ENABLED=0
-    - "go test -json -tags=httptest ./test/... >> ./test/http_out.xml"
+    - go test -json -tags=httptest ./test/... >> http_out.xml
   artifacts:
       paths:
-        - test/http_out.xml
+        - http_out.xml
       expire_in: 1 month
 
 grpc test:
@@ -87,10 +87,10 @@ grpc test:
   script:
     - echo "Run grpc tests"
     - export CGO_ENABLED=0
-    - "go test -json -tags=grpctest ./test/... >> ./test/grpc_out.xml"
+    - go test -json -tags=grpctest ./test/... >> grpc_out.xml
   artifacts:
       paths:
-        - test/*.xml
+        - grpc_out.xml
       expire_in: 1 month
 
 ready to prod:
