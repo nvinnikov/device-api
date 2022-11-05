@@ -97,8 +97,10 @@ ready to prod:
   stage: close
   script:
     - echo "Ready to prod"
+  when: manual
 
 close release:
   stage: close
   script:
     - echo "Ready to prod"
+  when: manual
