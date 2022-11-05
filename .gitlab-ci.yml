@@ -69,6 +69,7 @@ http test:
   stage: e2e
   script:
     - echo "Run http tests"
+    - go mod tidy
     - go test -json -tags httptest ./test/... > out.json
     - cat out.json
 
