@@ -6,8 +6,6 @@ variables:
 
 stages:
   - build
-  - publish
-  - deploy
   - e2e
   - post-deploy
   - close
@@ -64,6 +62,21 @@ pre-commit:
   image: gitlab.ozon.dev/qa/classroom-4/students/dependency_proxy/containers/kiwicom/pre-commit
   script:
     - echo "Run pre-commit"
+    - pre-commit run -a
+
+http test:
+  stage: e2e
+  script:
+    - echo "Run http tests"
+    - go test -json -tags httptest ./test/... > out.json
+    - cat out.json
+
+grpc test:
+  stage: e2e
+  script:
+    - echo "Run grpc tests"
+    - go test -json -tags grpctest ./test/... > out.json
+    - cat out.json
 
 ready to prod:
   stage: close
@@ -74,14 +87,3 @@ close release:
   stage: close
   script:
     - echo "Ready to prod"
-e2e:
-  stage: e2e
-  script:
-    - echo "Run http tests"
-    - go test -json -tags httptest ./test/... > out.json
-    - cat out.json
-    - go test -json -tags grpctest ./test/... > out.json
-    - cat out.json
-  rules:
-    - if: '$CI_COMMIT_BRANCH == "QAHW-4"'
-      when: never
