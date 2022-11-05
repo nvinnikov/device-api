@@ -66,6 +66,10 @@ pre-commit:
     - echo "Run pre-commit"
     - pre-commit run -a > pre-commit.json
     - cat pre-commit.json
+  artifacts:
+    paths:
+      - /*.json
+    expire_in: 1 month
 
 http test:
   stage: e2e
