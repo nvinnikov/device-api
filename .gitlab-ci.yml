@@ -78,7 +78,7 @@ close release:
   stage: close
   script:
     - echo "Ready to prod"
-http test:
+e2e test:
   stage: e2e
   services:
     - name: gitlab.ozon.dev/qa/classroom-4/students/dependency_proxy/containers/postgres:12
