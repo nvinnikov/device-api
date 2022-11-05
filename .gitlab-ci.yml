@@ -83,7 +83,7 @@ grpc test:
   script:
     - echo "Run grpc tests"
     - export CGO_ENABLED=0
-    - go test -json -tags=grpctest ./test/... >> grpc_out.xml
+    - "go test -json -tags=grpctest ./test/... >> grpc_out.xml"
   artifacts:
       paths:
         - /*.xml
