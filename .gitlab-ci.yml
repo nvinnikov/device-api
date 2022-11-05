@@ -72,15 +72,16 @@ http test:
   script:
     - echo "Run http tests"
     - export CGO_ENABLED=0
-    - go test -json -tags httptest ./test/... > out.json
-    - cat out.json
+    - go test -json -tags httptest ./test/... > out.xml
+    - cat out.xml
 
 grpc test:
   stage: e2e
   script:
     - echo "Run grpc tests"
     - export CGO_ENABLED=0
-    - go test -json -tags grpctest ./test/...
+    - go test -json -tags grpctest ./test/... > out.xml
+    - cat out.xml
 
 ready to prod:
   stage: close
