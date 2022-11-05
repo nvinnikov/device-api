@@ -44,6 +44,7 @@ build:
     - go install gotest.tools/gotestsum@latest
     - make deps-go
     - make build-go
+    - ls
     - make dc-up
     - ./bin/grpc-server &
     - sleep 5
