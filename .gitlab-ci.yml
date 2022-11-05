@@ -72,14 +72,22 @@ http test:
   script:
     - echo "Run http tests"
     - export CGO_ENABLED=0
-    - go test -json -tags httptest ./test/...
+    - go test -json -tags httptest ./test/... >> http_out.xml
+  artifacts:
+      paths:
+        - ./*.xml
+      expire_in: 1 month
 
 grpc test:
   stage: e2e
   script:
     - echo "Run grpc tests"
     - export CGO_ENABLED=0
-    - go test -json -tags grpctest ./test/...
+    - go test -json -tags grpctest ./test/... >> grpc_out.xml
+  artifacts:
+      paths:
+        - /*.xml
+      expire_in: 1 month
 
 ready to prod:
   stage: close
