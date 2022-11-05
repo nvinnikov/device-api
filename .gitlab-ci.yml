@@ -54,6 +54,7 @@ unit:
 linter:
   stage: build
   image: gitlab.ozon.dev/qa/classroom-4/students/dependency_proxy/containers/golangci/golangci-lint
+  allow_failure: true
   script:
     - echo "Run linters"
     - golangci-lint run
