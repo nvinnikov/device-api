@@ -1,5 +1,5 @@
-//go:build httptest
-// +build httptest
+//go:build httptest || unit
+// +build httptest unit
 
 package http_test
 

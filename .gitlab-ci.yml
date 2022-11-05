@@ -50,6 +50,8 @@ unit:
   stage: build
   script:
     - echo "Run unit tests"
+    - export CGO_ENABLED=0
+    - go test -tags=unit ./test/... > grpc_out.xml
 
 linter:
   stage: build
@@ -77,7 +79,7 @@ http test:
   script:
     - echo "Run http tests"
     - export CGO_ENABLED=0
-    - go test -json -tags=httptest ./test/... > http_out.xml
+    - go test -tags=httptest ./test/... > http_out.xml
   artifacts:
       paths:
         - http_out.xml
@@ -89,7 +91,7 @@ grpc test:
   script:
     - echo "Run grpc tests"
     - export CGO_ENABLED=0
-    - go test -json -tags=grpctest ./test/... > grpc_out.xml
+    - go test -tags=grpctest ./test/... > grpc_out.xml
   artifacts:
       paths:
         - grpc_out.xml

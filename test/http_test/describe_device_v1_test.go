@@ -1,6 +1,3 @@
-//go:build httptest
-// +build httptest
-
 package http_test
 
 import (
