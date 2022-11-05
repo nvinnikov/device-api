@@ -73,10 +73,11 @@ pre-commit:
 
 http test:
   stage: e2e
+  allow_failure: true
   script:
     - echo "Run http tests"
     - export CGO_ENABLED=0
-    - go test -json -tags=httptest ./test/... >> http_out.xml
+    - go test -json -tags=httptest ./test/... > http_out.xml
   artifacts:
       paths:
         - http_out.xml
@@ -84,10 +85,11 @@ http test:
 
 grpc test:
   stage: e2e
+  allow_failure: true
   script:
     - echo "Run grpc tests"
     - export CGO_ENABLED=0
-    - go test -json -tags=grpctest ./test/... >> grpc_out.xml
+    - go test -json -tags=grpctest ./test/... > grpc_out.xml
   artifacts:
       paths:
         - grpc_out.xml
