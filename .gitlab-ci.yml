@@ -7,7 +7,6 @@ variables:
 stages:
   - build
   - e2e
-  - post-deploy
   - close
 
 build:
