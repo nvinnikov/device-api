@@ -69,11 +69,9 @@ pre-commit:
 
 http test:
   stage: e2e
-  before_script:
-    - ./docker_install.sh > /dev/null
   script:
     - echo "Run http tests"
-    - ENV CGO_ENABLED 0
+    - export CGO_ENABLED=0
     - go test -json -tags httptest ./test/... > out.json
     - cat out.json
 
@@ -81,7 +79,7 @@ grpc test:
   stage: e2e
   script:
     - echo "Run grpc tests"
-    - CGO_ENABLED=0 go test -run="" /tmp/build/pkg/*
+    - export CGO_ENABLED=0
     - go test -json -tags grpctest ./test/... > out.json
     - cat out.json
 
