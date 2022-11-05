@@ -57,6 +57,7 @@ linter:
   script:
     - echo "Run linters"
     - golangci-lint run > lint.json
+    - cat lint.json
 
 pre-commit:
   stage: build
@@ -64,6 +65,7 @@ pre-commit:
   script:
     - echo "Run pre-commit"
     - pre-commit run -a > pre-commit.json
+    - cat pre-commit.json
 
 http test:
   stage: e2e
