@@ -1,5 +1,5 @@
-//go:build grpctest
-// +build grpctest
+//go:build grpctest1
+// +build grpctest1
 
 package grpc_test
 
