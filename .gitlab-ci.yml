@@ -135,8 +135,10 @@ http test:
   artifacts:
     when: always
     paths:
-      - junit-report.xml
-    expire_in: 1 month
+      - out.json
+    reports:
+      junit: junit-report.xml
+    expire_in: 1 day
   needs:
     - build
     - unit
@@ -186,8 +188,10 @@ grpc test:
   artifacts:
     when: always
     paths:
-      - junit-report.xml
-    expire_in: 1 month
+      - out.json
+    reports:
+      junit: junit-report.xml
+    expire_in: 1 day
   needs:
     - build
     - unit
