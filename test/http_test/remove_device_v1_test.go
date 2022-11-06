@@ -26,7 +26,7 @@ func TestDeleteDevice(t *testing.T) {
 		{"Android", "35456435"},
 		{"Ubuntu", "4353452"},
 	}
-	var URL = envy.Get("BASE_URL", "http://localhost::8080")
+	var URL = envy.Get("BASE_URL", "http://localhost:8080")
 	for _, tc := range testsCreateDevicePositive {
 		t.Run("Delete device", func(t *testing.T) {
 			// Arrange

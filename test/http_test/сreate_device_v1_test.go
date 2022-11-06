@@ -18,7 +18,7 @@ import (
 
 func TestCreateDevice(t *testing.T) {
 
-	var URL = envy.Get("BASE_URL", "http://localhost::8080")
+	var URL = envy.Get("BASE_URL", "http://localhost:8080")
 	valueLenErr := "rpc error: code = InvalidArgument desc = invalid CreateDeviceV1Request.Platform: value length must be at least 1 runes"
 	type testCasePositive struct {
 		Platform string

@@ -18,7 +18,7 @@ import (
 
 func TestUpdateDevice(t *testing.T) {
 
-	var URL = envy.Get("BASE_URL", "http://localhost::8080")
+	var URL = envy.Get("BASE_URL", "http://localhost:8080")
 	type testCasePositive struct {
 		Platform    string
 		UserId      string
