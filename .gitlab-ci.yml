@@ -129,7 +129,7 @@ http test:
   allow_failure: true
   script:
     - echo "Run http tests"
-    - export CGO_ENABLED=0
+    - go test -json -tags httptest ./test/...
     - go test -json -tags httptest ./test/... > out.json
     - cat out.json | gotestsum --format testname --junitfile junit-report.xml
   coverage: '/^total:\s+\(statements\)\s+\d+.\d+%$/'
@@ -183,7 +183,7 @@ grpc test:
   allow_failure: true
   script:
     - echo "Run grpc tests"
-    - export CGO_ENABLED=0
+    - go test -json -tags grpctest ./test/...
     - go test -json -tags grpctest ./test/... > out.json
     - cat out.json | gotestsum --format testname --junitfile junit-report.xml
   coverage: '/^total:\s+\(statements\)\s+\d+.\d+%$/'
