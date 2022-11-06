@@ -123,9 +123,6 @@ http test:
   before_script:
     - apk add --update make curl git protoc protobuf protobuf-dev build-base
     - go install gotest.tools/gotestsum@latest
-    - make deps-go
-    - ./bin/grpc-server &
-    - sleep 5
   allow_failure: true
   script:
     - echo "Run http tests"
@@ -177,14 +174,11 @@ grpc test:
   before_script:
     - apk add --update make curl git protoc protobuf protobuf-dev build-base
     - go install gotest.tools/gotestsum@latest
-    - make deps-go
-    - ./bin/grpc-server &
-    - sleep 5
   allow_failure: true
   script:
     - echo "Run grpc tests"
-    - go test -json -tags unit ./test/...
-    - go test -json -tags unit ./test/... > out.json
+    - go test -json -tags grpctest ./test/...
+    - go test -json -tags grpctest ./test/... > out.json
     - cat out.json | gotestsum --format testname --junitfile junit-report.xml
   coverage: '/^total:\s+\(statements\)\s+\d+.\d+%$/'
   artifacts:
