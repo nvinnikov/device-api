@@ -26,14 +26,13 @@ func GetConfigInstance() Config {
 
 // Database - contains all parameters database connection.
 type Database struct {
-	Host       string `yaml:"host"`
-	Port       string `yaml:"port"`
-	User       string `yaml:"user"`
-	Password   string `yaml:"password"`
-	Migrations string `yaml:"migrations"`
-	Name       string `yaml:"name"`
-	SslMode    string `yaml:"sslmode"`
-	Driver     string `yaml:"driver"`
+	Host     string `default:"localhost"`
+	Port     string `default:"5432"`
+	User     string `default:"docker"`
+	Password string `default:"docker"`
+	Name     string `default:"act_device_api"`
+	SslMode  string `default:"disable"`
+	Driver   string `default:"postgres"`
 }
 
 // Grpc - contains parameter address grpc.
