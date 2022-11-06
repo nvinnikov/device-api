@@ -52,6 +52,10 @@ unit:
     - echo "Run unit tests"
     - export CGO_ENABLED=0
     - go test -tags=unit ./test/...
+  artifacts:
+    paths:
+      - grpc_out.xml
+    expire_in: 1 month
 
 linter:
   stage: build
