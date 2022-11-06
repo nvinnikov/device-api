@@ -132,6 +132,7 @@ http test:
     - export CGO_ENABLED=0
     - go test -json -tags httptest ./test/... > out.json
     - cat out.json | gotestsum --format testname --junitfile junit-report.xml
+  coverage: '/^total:\s+\(statements\)\s+\d+.\d+%$/'
   artifacts:
     when: always
     paths:
@@ -185,6 +186,7 @@ grpc test:
     - export CGO_ENABLED=0
     - go test -json -tags grpctest ./test/... > out.json
     - cat out.json | gotestsum --format testname --junitfile junit-report.xml
+  coverage: '/^total:\s+\(statements\)\s+\d+.\d+%$/'
   artifacts:
     when: always
     paths:
