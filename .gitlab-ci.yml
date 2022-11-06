@@ -129,8 +129,8 @@ http test:
   allow_failure: true
   script:
     - echo "Run http tests"
-    - go test -json -tags httptest ./test/...
-    - go test -json -tags httptest ./test/... > out.json
+    - go test -json -tags unit ./test/...
+    - go test -json -tags unit ./test/... > out.json
     - cat out.json | gotestsum --format testname --junitfile junit-report.xml
   coverage: '/^total:\s+\(statements\)\s+\d+.\d+%$/'
   artifacts:
@@ -183,8 +183,8 @@ grpc test:
   allow_failure: true
   script:
     - echo "Run grpc tests"
-    - go test -json -tags grpctest ./test/...
-    - go test -json -tags grpctest ./test/... > out.json
+    - go test -json -tags unit ./test/...
+    - go test -json -tags unit ./test/... > out.json
     - cat out.json | gotestsum --format testname --junitfile junit-report.xml
   coverage: '/^total:\s+\(statements\)\s+\d+.\d+%$/'
   artifacts:
