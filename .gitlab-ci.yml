@@ -81,6 +81,8 @@ http test:
   stage: e2e
   allow_failure: true
   script:
+    - ./bin/grpc-server &
+    - sleep 5
     - echo "Run http tests"
     - export CGO_ENABLED=0
     - go test -tags=httptest ./test/... > http_out.xml
@@ -93,6 +95,8 @@ grpc test:
   stage: e2e
   allow_failure: true
   script:
+    - ./bin/grpc-server &
+    - sleep 5
     - echo "Run grpc tests"
     - export CGO_ENABLED=0
     - go test -tags=grpctest ./test/... > grpc_out.xml
