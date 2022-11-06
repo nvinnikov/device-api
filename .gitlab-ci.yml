@@ -27,7 +27,12 @@ unit:
   script:
     - echo "Run unit tests"
     - export CGO_ENABLED=0
-    - go test -tags=unit ./test/... > grpc_out.xml
+    - go test -json -tags unit ./test/... > out.json
+    - cat out.json | gotestsum --format testname --junitfile junit-report.xml
+  artifacts:
+    paths:
+      - junit-report.xml
+    expire_in: 1 month
 
 linter:
   stage: build
