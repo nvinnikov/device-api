@@ -33,7 +33,7 @@ func TestListDevices(t *testing.T) {
 		t.Run("Get devices", func(t *testing.T) {
 
 			// Arrange
-			var URL = envy.Get("BASE_URL", "http://127.0.0.1:8080")
+			var URL = envy.Get("BASE_URL", "http://localhost::8080")
 			client := apiClient.NewHTTPClient(URL, 5, 1*time.Second)
 			opts := url.Values{}
 			opts.Add("page", tc.Page)

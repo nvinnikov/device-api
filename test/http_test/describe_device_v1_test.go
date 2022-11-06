@@ -27,7 +27,7 @@ func TestDescribeDevice(t *testing.T) {
 		{"Android", "999"},
 		{"Ubuntu", "555"},
 	}
-	var URL = envy.Get("BASE_URL", "http://127.0.0.1:8080")
+	var URL = envy.Get("BASE_URL", "http://localhost::8080")
 	for _, tc := range testsDescribeDevicePositive {
 
 		t.Run("Describe device", func(t *testing.T) {
