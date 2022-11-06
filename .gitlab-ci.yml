@@ -127,7 +127,7 @@ grpc test:
     - cat out.json | gotestsum --format testname --junitfile junit-report.xml
   artifacts:
       paths:
-        - report.xml
+        - junit-report.xml
       expire_in: 1 month
   needs:
     - build
