@@ -55,9 +55,6 @@ unit:
   before_script:
     - apk add --update make curl git protoc protobuf protobuf-dev build-base
     - go install gotest.tools/gotestsum@latest
-    - make deps-go
-    - ./bin/grpc-server &
-    - sleep 5
   script:
     - echo "Run unit tests"
     - export CGO_ENABLED=0
@@ -67,8 +64,10 @@ unit:
   artifacts:
     when: always
     paths:
-      - junit-report.xml
-    expire_in: 1 month
+      - out.json
+    reports:
+      junit: junit-report.xml
+    expire_in: 1 day
 
 linter:
   stage: build
