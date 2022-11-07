@@ -28,6 +28,11 @@ run:
 lint:
 	golangci-lint run ./...
 
+.PHONY: goallure
+goallure:
+	rm -rf test/allure-results
+	go test -v ./test/e2e_remove_device_v1_test.go
+	allure serve ./test/allure-results
 
 .PHONY: test
 test:
