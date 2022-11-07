@@ -1,4 +1,4 @@
-package test
+package e2e
 
 import (
 	"context"
@@ -15,11 +15,11 @@ import (
 	"github.com/ozontech/allure-go/pkg/framework/suite"
 )
 
-type SetupSuite struct {
+type TestCreateAndRemoveDeviceV1 struct {
 	suite.Suite
 }
 
-func (s *SetupSuite) RemoveDeviceV1(t provider.T) {
+func (s *TestCreateAndRemoveDeviceV1) TestRemoveDeviceV1(t provider.T) {
 	var (
 		ctx context.Context
 		id  string
@@ -71,5 +71,5 @@ func (s *SetupSuite) RemoveDeviceV1(t provider.T) {
 }
 
 func TestRunner(t *testing.T) {
-	suite.RunSuite(t, new(SetupSuite))
+	suite.RunSuite(t, new(TestCreateAndRemoveDeviceV1))
 }
