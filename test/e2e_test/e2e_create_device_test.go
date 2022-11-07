@@ -28,11 +28,11 @@ func TestCreateDeviceAndCheckDescription(t *testing.T) {
 	actDeviceApiClient := actdeviceapi.NewActDeviceApiServiceClient(conn)
 
 	runner.Run(t, "CreateDevice and check Description", func(t provider.T) {
-		t.Epic("Demo")
+		t.Epic("GRPC")
 		t.Feature("E2E")
 		t.Title("CreateDevice and check Description")
 		t.Description(`e2e smoke case`)
-		t.Tags("Smoke", "E2E", "Demo", "Android")
+		t.Tags("Smoke", "E2E", "Demo", "Android", "GRPC")
 
 		t.WithNewStep("CreateDevice", func(sCtx provider.StepCtx) {
 			req := &actdeviceapi.CreateDeviceV1Request{

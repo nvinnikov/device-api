@@ -8,6 +8,7 @@ import (
 	"github.com/stretchr/testify/assert"
 	apiClient "gitlab.ozon.dev/qa/classroom-4/act-device-api/test/http_test/client"
 	"gitlab.ozon.dev/qa/classroom-4/act-device-api/test/http_test/models"
+	"net/url"
 	"testing"
 	"time"
 
@@ -15,18 +16,18 @@ import (
 	"github.com/ozontech/allure-go/pkg/framework/suite"
 )
 
-type TestCreateAndRemoveDeviceV1 struct {
+type TestCreateAndListDeviceV1 struct {
 	suite.Suite
 }
 
-func (s *TestCreateAndRemoveDeviceV1) TestRemoveDeviceV1(t provider.T) {
+func (s *TestCreateAndListDeviceV1) TestListDeviceV1(t provider.T) {
 	var (
 		ctx context.Context
 		id  string
 	)
 	t.Epic("HTTP")
 	t.Feature("E2E")
-	t.Title("CreateDevice and RemoveDevice")
+	t.Title("CreateDevice and ListDevice")
 	t.Description(`e2e smoke case`)
 	t.Tags("Smoke", "E2E", "Demo", "Ubuntu", "HTTP")
 	t.WithTestSetup(func(t provider.T) {
@@ -51,15 +52,19 @@ func (s *TestCreateAndRemoveDeviceV1) TestRemoveDeviceV1(t provider.T) {
 
 	t.WithNewAttachment("CreateDevice response", allure.Text, []byte(fmt.Sprintf("%+v", id)))
 
-	t.WithNewStep("Remove device", func(sCtx provider.StepCtx) {
+	t.WithNewStep("List device", func(sCtx provider.StepCtx) {
 		// Arrange
 		var URL = envy.Get("BASE_URL", "http://localhost:8080")
 		client := apiClient.NewHTTPClient(URL, 5, 1*time.Second)
+		opts := url.Values{}
+		opts.Add("page", "1")
+		opts.Add("perPage", "10")
 		ctx := context.Background()
 
 		// Act
-		_, _, err := client.RemoveDevice(ctx, id)
+		items, _, err := client.ListDevices(ctx, opts)
 		assert.NoError(t, err)
+		assert.GreaterOrEqual(t, len(items.Items), 1)
 
 	})
 	defer t.WithTestTeardown(func(t provider.T) {
@@ -70,6 +75,6 @@ func (s *TestCreateAndRemoveDeviceV1) TestRemoveDeviceV1(t provider.T) {
 	})
 }
 
-func TestRunnerRemove(t *testing.T) {
-	suite.RunSuite(t, new(TestCreateAndRemoveDeviceV1))
+func TestRunnerList(t *testing.T) {
+	suite.RunSuite(t, new(TestCreateAndListDeviceV1))
 }
