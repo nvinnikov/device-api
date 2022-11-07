@@ -1,4 +1,4 @@
-package e2e
+package e2e_test
 
 import (
 	"context"
@@ -60,6 +60,7 @@ func (s *TestCreateAndRemoveDeviceV1) TestRemoveDeviceV1(t provider.T) {
 		// Act
 		_, _, err := client.RemoveDevice(ctx, id)
 		assert.NoError(t, err)
+		sCtx.Require().NoError(err, "Assertion Failed")
 
 	})
 	defer t.WithTestTeardown(func(t provider.T) {

@@ -1,0 +1,1 @@
+{"total":2,"items":[{"uid":"566ac4725454a1feab0e6d94d9a992ea","name":"GRPC","statistic":{"failed":0,"broken":0,"skipped":0,"passed":1,"unknown":0,"total":1}},{"uid":"797e13a71f0af857fafa41d9184d5830","name":"HTTP","statistic":{"failed":0,"broken":0,"skipped":0,"passed":1,"unknown":0,"total":1}}]}
