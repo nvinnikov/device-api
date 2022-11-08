@@ -105,7 +105,7 @@ docker-build:
 
 .PHONY: dc-up
 dc-up:
-	docker-compose -f docker-compose.service.yaml -f docker-compose.service-env.yaml -p ozon_route256 up -d
+	docker-compose -f docker-compose.yaml -p ozon_route256 up -d
 
 .PHONY: dc-up-service-env
 dc-up-service-env:
@@ -117,7 +117,7 @@ dc-stop:
 
 .PHONY: dc-down
 dc-down:
-	docker-compose -f docker-compose.service.yaml -f docker-compose.service-env.yaml -p ozon_route256 down --remove-orphans -v -t0
+	docker-compose -f docker-compose.yaml -p ozon_route256 down --remove-orphans -v -t0
 
 .PHONY: dc-down-service-env
 dc-down-service-env:
@@ -134,3 +134,14 @@ tools-version:
 	@ protoc --version
 	@ docker --version
 	@ docker-compose --version
+.PHONY: prom-refresh
+prom-refresh:
+	curl 'http://localhost:8428/-/reload'
+
+.PHONY: prom-config
+prom-config:
+	curl 'http://localhost:8428/config'
+
+.PHONY: prom-status
+prom-status:
+	 curl 'http://localhost:8428/api/v1/targets'|jq '.data.activeTargets| .[] | {pool:.scrapePool, status:.health}'
