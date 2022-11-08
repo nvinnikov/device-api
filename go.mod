@@ -8,6 +8,8 @@ require (
 	github.com/golang/mock v1.6.0
 	github.com/google/uuid v1.3.0
 	github.com/hashicorp/go-retryablehttp v0.7.1
+	github.com/ozontech/allure-go/pkg/allure v0.6.4
+	github.com/ozontech/allure-go/pkg/framework v0.6.18
 	github.com/stretchr/testify v1.8.0
 )
 

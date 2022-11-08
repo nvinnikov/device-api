@@ -5,7 +5,10 @@ package grpc_test
 
 import (
 	"context"
-	"github.com/stretchr/testify/assert"
+	"fmt"
+	"github.com/ozontech/allure-go/pkg/allure"
+	"github.com/ozontech/allure-go/pkg/framework/provider"
+	"github.com/ozontech/allure-go/pkg/framework/runner"
 	"github.com/stretchr/testify/require"
 	act_device_api "gitlab.ozon.dev/qa/classroom-4/act-device-api/pkg/act-device-api/gitlab.ozon.dev/qa/classroom-4/act-device-api/pkg/act-device-api"
 	"google.golang.org/grpc"
@@ -16,9 +19,7 @@ func TestCreateDevice(t *testing.T) {
 	host := "localhost:8082"
 	ctx := context.Background()
 	conn, err := grpc.Dial(host, grpc.WithInsecure())
-	if err != nil {
-		t.Fatalf("grpc.Dial() err: %v", err)
-	}
+	require.NoError(t, err)
 
 	defer func(conn *grpc.ClientConn) {
 		err := conn.Close()
@@ -26,6 +27,7 @@ func TestCreateDevice(t *testing.T) {
 			t.Logf("conn.Close err: %v", err)
 		}
 	}(conn)
+
 	valueLenErr := "rpc error: code = InvalidArgument desc = invalid CreateDeviceV1Request.Platform: value length must be at least 1 runes"
 	type testCasePositive struct {
 		Platform string
@@ -46,51 +48,71 @@ func TestCreateDevice(t *testing.T) {
 	}
 
 	actDeviceApiClient := act_device_api.NewActDeviceApiServiceClient(conn)
+
 	for _, tc := range testsCreateDevicePositive {
-		t.Run("CreateDevice valid", func(t *testing.T) {
-			req := act_device_api.CreateDeviceV1Request{
-				Platform: tc.Platform,
-				UserId:   tc.UserId,
-			}
-			res, err := actDeviceApiClient.CreateDeviceV1(ctx, &req)
+		runner.Run(t, "CreateDevice valid", func(t provider.T) {
 
-			// Assert
-			require.NoError(t, err)
-			require.NotNil(t, res)
-			assert.GreaterOrEqual(t, res.DeviceId, uint64(1))
+			t.WithNewStep("CreateDevice", func(sCtx provider.StepCtx) {
+				req := &act_device_api.CreateDeviceV1Request{
+					Platform: tc.Platform,
+					UserId:   tc.UserId,
+				}
+				t.WithNewAttachment("CreateDevice request", allure.Text, []byte(fmt.Sprintf("%+v", req)))
 
+				res, err := actDeviceApiClient.CreateDeviceV1(ctx, req)
+				t.WithNewAttachment("CreateDevice response", allure.Text, []byte(fmt.Sprintf("%+v", res)))
+				// Assert
+				sCtx.Require().NoError(err)
+				sCtx.Require().NotEmpty(res.DeviceId, "empty Id")
+				sCtx.Require().GreaterOrEqual(res.DeviceId, uint64(1))
+			})
 		})
 	}
 	for _, tc := range testsCreateDevicePositive {
-		t.Run("CreateDevice and check Description", func(t *testing.T) {
-			req := act_device_api.CreateDeviceV1Request{
-				Platform: tc.Platform,
-				UserId:   tc.UserId,
-			}
-			res, err := actDeviceApiClient.CreateDeviceV1(ctx, &req)
-			// Assert
-			require.NoError(t, err)
-			require.NotNil(t, res)
-			assert.GreaterOrEqual(t, res.DeviceId, uint64(1))
-			describeReq := act_device_api.DescribeDeviceV1Request{
-				DeviceId: res.DeviceId,
-			}
-			description, _ := actDeviceApiClient.DescribeDeviceV1(ctx, &describeReq)
-			// Assert
-			assert.Equal(t, description.Value.Id, res.DeviceId)
-			assert.Equal(t, description.Value.Platform, tc.Platform)
-			assert.Equal(t, description.Value.UserId, tc.UserId)
+		runner.Run(t, "CreateDevice and check Description", func(t provider.T) {
 
+			t.WithNewStep("CreateDevice", func(sCtx provider.StepCtx) {
+				req := &act_device_api.CreateDeviceV1Request{
+					Platform: tc.Platform,
+					UserId:   tc.UserId,
+				}
+				t.WithNewAttachment("CreateDevice request", allure.Text, []byte(fmt.Sprintf("%+v", req)))
+
+				res, err := actDeviceApiClient.CreateDeviceV1(ctx, req)
+				t.WithNewAttachment("CreateDevice response", allure.Text, []byte(fmt.Sprintf("%+v", res)))
+				// Assert
+				sCtx.Require().NoError(err)
+				sCtx.Require().NotEmpty(res.DeviceId, "empty Id")
+				sCtx.Require().GreaterOrEqual(res.DeviceId, uint64(1))
+
+				t.WithNewAttachment("check Description request", allure.Text, []byte(fmt.Sprintf("%+v", res)))
+				describeReq := act_device_api.DescribeDeviceV1Request{
+					DeviceId: res.DeviceId,
+				}
+				description, _ := actDeviceApiClient.DescribeDeviceV1(ctx, &describeReq)
+				t.WithNewAttachment("check Description response", allure.Text, []byte(fmt.Sprintf("%+v", res)))
+				// Assert
+				sCtx.Require().Equal(description.Value.Id, res.DeviceId)
+				sCtx.Require().Equal(description.Value.Platform, tc.Platform)
+				sCtx.Require().Equal(description.Value.UserId, tc.UserId)
+			})
 		})
 	}
 	for _, tc := range testCreateDeviceNegative {
-		t.Run("CreateDevice invalid", func(t *testing.T) {
-			req := act_device_api.CreateDeviceV1Request{
-				Platform: tc.Platform,
-				UserId:   tc.UserId,
-			}
-			_, err := actDeviceApiClient.CreateDeviceV1(ctx, &req)
-			assert.Equal(t, err.Error(), tc.err)
+		runner.Run(t, "CreateDevice invalid", func(t provider.T) {
+
+			t.WithNewStep("invalid", func(sCtx provider.StepCtx) {
+				req := &act_device_api.CreateDeviceV1Request{
+					Platform: tc.Platform,
+					UserId:   tc.UserId,
+				}
+				t.WithNewAttachment("CreateDevice request", allure.Text, []byte(fmt.Sprintf("%+v", req)))
+
+				_, err := actDeviceApiClient.CreateDeviceV1(ctx, req)
+				t.WithNewAttachment("CreateDevice response", allure.Text, []byte(fmt.Sprintf("%+v", err)))
+				// Assert
+				sCtx.Require().Equal(err.Error(), tc.err)
+			})
 		})
 	}
 }
