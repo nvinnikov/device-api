@@ -1,3 +1,6 @@
+//go:build grpctest_n
+// +build grpctest_n
+
 package grpc_notification
 
 import (

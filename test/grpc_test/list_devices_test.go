@@ -1,3 +1,6 @@
+//go:build grpctest1
+// +build grpctest1
+
 package grpc_test
 
 import (
